@@ -1,0 +1,105 @@
+.App {
+    text-align: center;
+    padding: 4rem;
+    display: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.linkback {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.linkback button {
+    background: transparent;
+    border: none !important;
+}
+
+#back_img {
+    width: 8%;
+    height: 8%;
+    float: left;
+}
+
+#back_text {
+    font-weight: bold;
+    text-align: left;
+    float: left;
+    font-size: 25px;
+    font-size: 25px;
+}
+
+.list-item {
+    display: flex;
+    background-color: #FFFFFF;
+    padding: 20px; /* Adjusted padding for better spacing */
+    border-radius: 20px;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    width: 600px;
+    margin-bottom: 20px; /* Adjusted margin for spacing between list items */
+    position: relative;
+}
+
+.item-image img {
+    width: 100px;
+    height: 100px;
+}
+
+/* Texts on event box */
+.item-text {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    margin-top: 10px; /* Adjusted margin for spacing between image and text */
+}
+
+.item-tags img {
+    /* Set the width and height of the images to match the font size */
+    width: 30px; /* Adjust this value based on your design */
+    height: 30px; /* Adjust this value based on your design */
+    margin-right: 5px; /* Add spacing between the icons */
+    margin-top: 10px;
+}
+
+.item-primary-text {
+    color: #36476D;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.item-secondary-text {
+    color: #828EA6;
+    font-size: 1.2rem;
+    line-height: 1rem;
+}
+
+.item-date {
+    color: #828EA6;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 5px;
+    margin-right: 20px;
+}

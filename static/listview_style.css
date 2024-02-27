@@ -1,0 +1,225 @@
+.App {
+    text-align: center;
+    padding: 4rem;
+    display: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: ‘Poppins’, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Map/FreeLunch/Filter toolbar */
+  .toolbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    color: #4484EA;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    font-weight: bold;
+  }
+
+  /* FreeLunch */
+  .toolbar h1 {
+      margin: 0;
+      font-weight: bold;
+  }
+
+/* Buttons on toolbars: Map, Filter, Active, Upcoming, Archived */
+button {
+    background-color: white;
+    color: #4484EA;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* map and filter img */
+button img {
+    width: 40px;
+    height: auto;
+    margin-right: 100px;
+    margin-left: 100px;
+}
+
+/* Toolbar for Active, Upcoming, Archived */
+.second-toolbar {
+    position: fixed;
+    border-bottom: 1px solid black;
+    width: 100%;
+    top: 80px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #F4F4F4;
+    z-index: 999;
+}
+
+/* borders and spacing for second toolbar */
+.second-toolbar button {
+    flex-grow: 1;
+}
+
+/* selected button background */
+.active {
+    background-color: #4484EA;
+    color: white;
+}
+
+
+/* All drop down section are for Filter drop menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    width: 150px; /* Adjust the width of the dropdown */
+}
+
+.dropdown-content label {
+    display: block;
+    padding: 8px;
+    white-space: nowrap; /* Prevent wrapping of the checkbox labels */
+    margin-right: 100px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    left: 0;
+    right: auto;
+}
+
+.ActiveList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 150px;
+    padding-bottom: 100px;
+}
+
+.UpcomingList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 150px;
+    padding-bottom: 100px;
+}
+
+.ArchivedList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 150px;
+    padding-bottom: 100px;
+    opacity: 0.6;
+}
+
+.list-item.archived-item {
+    background-color: #F5F5F5;
+    box-shadow: none;
+}
+
+.list-item {
+    display: flex;
+    background-color: #FFFFFF;
+    padding: 20px; /* Adjusted padding for better spacing */
+    border-radius: 20px;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    width: 600px;
+    margin-bottom: 20px; /* Adjusted margin for spacing between list items */
+    position: relative;
+}
+
+.item-image img {
+width: 100px;
+height: 100px;
+}
+
+/* Texts on event box */
+.item-text {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    margin-top: 10px; /* Adjusted margin for spacing between image and text */
+}
+
+.item-tags img {
+    /* Set the width and height of the images to match the font size */
+    width: 30px; /* Adjust this value based on your design */
+    height: 30px; /* Adjust this value based on your design */
+    margin-right: 5px; /* Add spacing between the icons */
+    margin-top: 10px;
+}
+
+.item-primary-text {
+    color: #36476D;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.item-secondary-text {
+    color: #828EA6;
+    font-size: 1.2rem;
+    line-height: 1rem;
+}
+
+.item-date {
+    color: #828EA6;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 5px;
+    margin-right: 20px;
+}
+
+.circle-toolbar {
+    position: fixed;
+    top: 85%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.circle-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background-color: #4484EA; /* Set your desired background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.circle-button img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+  

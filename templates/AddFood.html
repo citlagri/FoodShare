@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='aux_styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="linkback">
+        <a href="{{ url_for('mapView') }}">
+            <button>
+                <span><img id="back_img" src="{{ url_for('static', filename='images/back_arrow.png') }}"></span>
+                <span id="back_text">Back to all events</span>
+            </button>
+        </a>
+    </div>
+
+    <form id="foodForm" action="{{ url_for('listView') }}" method="post" enctype="multipart/form-data">
+        <div class="parent">
+            <div class="wide" id="upload">
+                <div class="camera_text">
+                    Upload pictures of your food!
+                </div>
+
+                <!-- how to turn this into a clickable camera action -->
+                <div class="camera_background">
+                    <label for="itemImage" class="camera_button">
+                        <img id="previewImage" src="{{ url_for('static', filename='images/camera.png') }}" alt="Camera" >
+                    </label>
+                    <input type="file" id="itemImage" name="itemImage" accept="image/*" style="display:none;" required onchange="previewFile()">
+                </div>
+            </div>
+
+            <div class="wide">
+                <div class="text_background">
+                    <input type="text" id=itemName name="itemName" placeholder="Title of your post" required>
+                </div>
+            </div>
+            <div class="wide">
+                <div class="text_background">
+                    <input list="locations" id="itemLocation" name="itemLocation" placeholder="Location" required>
+                        <datalist id="locations">
+                            <option value="Alfred J. Lerner Hall">
+                            <option value="Avery Hall">
+                            <option value="Buell Hall">
+                            <option value="Butler Library">
+                            <option value="Dodge Hall">
+                            <option value="Dodge Physical Fitness Center">
+                            <option value="Earl Hall">
+                            <option value="East Campus">
+                            <option value="Engineering Terrace">
+                            <option value="Faculty House">
+                            <option value="Fairchild Center">
+                            <option value="Fayweather Hall">
+                            <option value="Hamilton Hall">
+                            <option value="Havemeyer Hall">
+                            <option value="International Affairs Building">
+                            <option value="Jerome Greene Hall">
+                            <option value="Kent Hall">
+                            <option value="Knox Hall">
+                            <option value="Lewisohn Hall">
+                            <option value="Low Library">
+                            <option value="Mathematics">
+                            <option value="Mudd Building">
+                            <option value="North West Corner Building">
+                            <option value="Philosophy Hall">
+                            <option value="Pulitzer Hall">
+                            <option value="Pupin Hall">
+                            <option value="Schapiro">
+                            <option value="Schermerhorn Hall">
+                        </datalist>
+                </div>
+            </div>
+
+            <div>
+                <div class="text_background">
+                    <input type="time" id="itemTime" name="itemTime" placeholder="Time" required>
+                </div>
+            </div>
+
+            <div>
+                <div class="text_background">
+                    <input type="date" id="itemDate" name="itemDate" placeholder="Date" required>
+                </div>
+            </div>
+
+            <div class="wide">
+                <div class="text_background">
+                    <input type="text" id=itemNotes name="itemNotes" placeholder="Notes...">
+                </div>
+            </div>
+
+            <div>
+                <div class="text_background">
+                    <div class="dropdown">
+                        <button style="border: none; box-shadow: none;">Select Tags</button>
+                        <div class="dropdown-content">
+                            <label><input type="checkbox" name="itemTags[]" value="Vegetarian">Vegetarian</label>
+                            <label><input type="checkbox" name="itemTags[]" value="GlutenFree">Gluten Free</label>
+                            <label><input type="checkbox" name="itemTags[]" value="Vegan">Vegan</label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="text_background">
+                <input type="text" id="itemAuthor" name="itemAuthor" placeholder="Posted by" required>
+                </div>
+            </div>
+
+            <div class="wide">
+                <div class="button_container">
+                    <button type="submit" onclick="return confirm('Terms and Conditions:\n\nWhen posting free food, you are responsible for \nproper clean-up and leaving Columbia University\'s \ncampus in the condition you found it. FreeLunch is \nnot liable for any issues. Be honest, end events \nwhen done, and be considerate of others. By using \nthis platform, you agree to these terms. Thanks for \nhelping reduce waste and sharing food!')">
+                        Post your free food!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>    
+
+    <script>
+        // JavaScript to display selected file in the box
+        function previewFile() {
+            var preview = document.getElementById('previewImage');
+            var fileInput = document.getElementById('itemImage').files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            }
+
+            if (fileInput) {
+                reader.readAsDataURL(fileInput);
+            } else {
+                preview.src = "{{ url_for('static', filename='images/camera.png') }}";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

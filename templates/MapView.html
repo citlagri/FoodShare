@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+</head>
+
+<body>
+    <div class="toolbar">
+        <a href="{{ url_for('listView') }}">
+            <button id="listButton">
+                <img src="{{ url_for('static', filename='images/list.png') }}" alt="List">
+            </button>
+        </a>
+        <h1>FreeLunch</h1>
+        <div class="dropdown">
+            <button id="filterButton">
+                <img src="{{ url_for('static', filename='images/filter.png') }}" alt="Filter">
+            </button>
+            <div class="dropdown-content">
+                <label><input type="checkbox" id="Vegetarian" onClick="re_fetch()">Vegetarian</label>
+                <label><input type="checkbox" id="GlutenFree" onClick="re_fetch()">Gluten Free</label>
+                <label><input type="checkbox" id="Vegan" onClick="re_fetch()">Vegan</label>
+            </div>
+        </div>
+    </div>
+    
+    <div id="map"></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoiemlha2FyYSIsImEiOiJjbHB4OWVpa2swaXpkMmpxd3h2amdoaWlwIn0.aGFkkCdUZKd_M9a30uNYWQ';
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            center: [-73.96212944900573, 40.80773295501973], // starting position [lng, lat]
+            zoom: 16 // starting zoom
+        });
+
+        var currentMarkers = []
+
+        // Fetch locations data from Flask backend
+        fetch('/get_locations')
+            .then(response => response.json())
+            .then(locations => {
+                // Use the locations data to create markers on the map
+                addMarkers(locations);
+            })
+            .catch(error => console.error('Error fetching locations:', error));
+        
+        function re_fetch() {
+            if (currentMarkers!==null) {
+                for (var i = currentMarkers.length - 1; i >= 0; i--) {
+                    currentMarkers[i].remove();
+                }
+            }
+
+            fetch('/get_locations')
+                .then(response => response.json())
+                .then(locations => {
+                    // Use the locations data to create markers on the map
+                    addMarkers(locations);
+                })
+                .catch(error => console.error('Error fetching locations:', error));
+        }
+
+        // Function to add markers to the map
+        function addMarkers(locations) {
+            const popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
+
+            let vegan = document.getElementById("Vegan")
+            let vegetarian = document.getElementById("Vegetarian")
+            let gf = document.getElementById("GlutenFree")
+            let filters = [vegan, vegetarian, gf]
+            let filter_checked = []
+
+            for (var j = 0; j < filters.length; j++) {
+                if (filters[j].checked === true) {
+                    filter_checked.push(filters[j].id)
+                }
+            }
+
+            locations.forEach(location => {
+                let markerColor
+                let aux_tags = location.itemTags
+                let displayItem = false
+
+                // Set marker color based on status
+                if (location.status === 'upcoming') {
+                    markerColor = 'purple';
+                } else if (location.status === 'active') {
+                    markerColor = 'blue';
+                } else if (location.status === 'archived') {
+                    markerColor = 'gray';
+                }
+
+                if (filter_checked.length > 0) {
+                    for (var i = 0; i < aux_tags.length; i++) {
+                        if (filter_checked.includes(aux_tags[i])) {
+                            displayItem = true;
+                            break; // Break the loop if at least one tag matches
+                        }
+                    }
+                } else {
+                    // If no filters selected, display the item
+                    displayItem = true;
+                }
+
+                if (displayItem === true) {
+                    // Create a Marker for the main event marker
+                    const mainMarker = new mapboxgl.Marker({ color: markerColor })
+                        .setLngLat(location.coordinates)
+                        .addTo(map)
+
+                    currentMarkers.push(mainMarker)
+                    
+                    // Create a separate Marker for the hover point
+                    const hoverMarker = new mapboxgl.Marker({ color: 'transparent' }) // Transparent marker
+                        .setLngLat(location.coordinates)
+                        .addTo(map)
+
+                    currentMarkers.push(hoverMarker)
+                    
+                    // Add event listener for mouseenter event on the hover marker to show popup on hover
+                    hoverMarker.getElement().addEventListener('mouseenter', function () {
+                        const coordinates = location.coordinates.slice()
+                        popup.setLngLat(coordinates).setHTML(`<h3>${location.name}</h3>`).addTo(map)
+                        map.getCanvas().style.cursor = 'pointer'
+                    })
+
+                    // Add event listener for mouseleave event on the hover marker to hide popup
+                    hoverMarker.getElement().addEventListener('mouseleave', function () {
+                        popup.remove()
+                        map.getCanvas().style.cursor = ''
+                    })
+                }
+            });
+        }
+    
+
+        // Add geolocate control to the map.
+        map.addControl(
+            new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                // When active the map will receive updates to the device's location as it changes.
+                trackUserLocation: true,
+                // Draw an arrow next to the location dot to indicate which direction the device is heading.
+                showUserHeading: true
+            })
+        );
+    </script>
+
+    <div class="circle-toolbar">
+        <button class="circle-button" id="savedforlater">
+            <img class="SaveIcon" src="{{ url_for('static', filename='images/Picture1.svg') }}">
+        </button>
+        <button class="circle-button" id="addfood">
+            <img class="AddIcon" src="{{ url_for('static', filename='images/Picture2.svg') }}">
+        </button>
+    </div>
+    
+    <script>
+        document.getElementById("savedforlater").addEventListener("click", function() {
+            window.location.href = "{{ url_for('saved') }}";
+        });
+
+        document.getElementById("addfood").addEventListener("click", function() {
+            window.location.href = "{{ url_for('addFood') }}";
+        });
+    </script>
+</body>
+</html>

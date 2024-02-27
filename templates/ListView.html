@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='listview_style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="App"></div>
+    <!-- handles the top tool bar with map and filter buttons -->
+    <div class="toolbar">
+        <a href="{{ url_for('mapView') }}">
+            <button id="mapButton">
+                <img src="{{ url_for('static', filename='images/map.png') }}" alt="Map">
+            </button>
+        </a>
+        <h1>FreeLunch</h1>
+        <div class="dropdown">
+            <button id="filterButton">
+                <img src="{{ url_for('static', filename='images/filter.png') }}" alt="Filter">
+            </button>
+            <div class="dropdown-content">
+                <label><input type="checkbox" class="filter-checkbox" id="Vegetarian" onclick="filterEvents()">Vegetarian</label>
+                <label><input type="checkbox" class="filter-checkbox" id="GlutenFree" onclick="filterEvents()">Gluten Free</label>
+                <label><input type="checkbox" class="filter-checkbox" id="Vegan" onclick="filterEvents()">Vegan</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- handles the toolbar that shows events by dates -->
+    <div class="second-toolbar">
+        <button id="activeButton" onclick="changeTab('activeButton', 'List')" >Active</button>
+        <button id="upcomingButton" onclick="changeTab('upcomingButton', 'UpcomingList')">Upcoming</button>
+        <button id="archivedButton" onclick="changeTab('archivedButton', 'ArchivedList')">Archived</button>
+    </div>
+
+    <!--Lists-->
+    <div class="ActiveList" id="activeList">
+        {% for item in active_items %}
+            <a href="{{ url_for('detailedView', item_id=item.itemId) }}">
+                <div class="list-item">
+                    <div class="item-image">
+                        <img src="{{ item.itemImage }}" alt="{{ item.itemName }}">
+                    </div>
+                    <div class="item-text">
+                        <div class='item-primary-text'>{{ item.itemName }}</div>
+                        <div class='item-secondary-text'>{{ item.itemLocation }}</div>
+                        <div class='item-date' data-date="{{ item.itemDate }}">{{ item.itemTime }}</div>
+                        <!-- Loop through itemTags and display each tag -->
+                        <div class='item-tags'>
+                            {% for tag in item.itemTags %}
+                                {% if tag == 'Vegan' %}
+                                    <img src="{{ url_for('static', filename='images/vegan.avif') }}" alt="Vegan">
+                                {% elif tag == 'GlutenFree' %}
+                                    <img src="{{ url_for('static', filename='images/glutenfree.png') }}" alt="GlutenFree">
+                                {% elif tag == 'Vegetarian' %}
+                                    <img src="{{ url_for('static', filename='images/vegetarian.png') }}" alt="Vegetarian">
+                                {% else %}
+                                    {{ tag }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    
+    <div class="UpcomingList" id="upcomingList" style="display: none;" >
+        {% for item in upcoming_items %}
+            <a href="{{ url_for('detailedView', item_id=item.itemId) }}">
+
+                <div class="list-item">
+                    <div class="item-image">
+                        <img src="{{ item.itemImage }}" alt="{{ item.itemName }}">
+                    </div>
+                    <div class="item-text">
+                        <div class='item-primary-text'>{{ item.itemName }}</div>
+                        <div class='item-secondary-text'>{{ item.itemLocation }}</div>
+                        <div class='item-date' data-date="{{ item.itemDate }}">{{ item.itemDate }} @ {{item.itemTime}}</div>
+                        <!-- Loop through itemTags and display each tag -->
+                        <div class='item-tags'>
+                            {% for tag in item.itemTags %}
+                                {% if tag == 'Vegan' %}
+                                    <img src="{{ url_for('static', filename='images/vegan.avif') }}" alt="Vegan Icon">
+                                {% elif tag == 'GlutenFree' %}
+                                    <img src="{{ url_for('static', filename='images/glutenfree.png') }}" alt="Gluten-Free Icon">
+                                {% elif tag == 'Vegetarian' %}
+                                    <img src="{{ url_for('static', filename='images/vegetarian.png') }}" alt="Vegetarian Icon">
+                                {% else %}
+                                    {{ tag }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="ArchivedList" style="display: none;">
+        {% for item in archived_items %}
+                <div class="list-item archived-item">
+                    <div class="item-image">
+                        <img src="{{ item.itemImage }}" alt="{{ item.itemName }}">
+                    </div>
+                    <div class="item-text">
+                        <div class='item-primary-text'>{{ item.itemName }}</div>
+                        <div class='item-secondary-text'>{{ item.itemLocation }}</div>
+                        <div class='item-date' data-date="{{ item.itemDate }}">{{ item.itemDate }} @ {{item.itemTime}}</div>
+                        <div class='item-tags'>
+                            {% for tag in item.itemTags %}
+                                {% if tag == 'Vegan' %}
+                                    <img src="{{ url_for('static', filename='images/vegan.avif') }}" id="Vegan" alt="Vegan">
+                                {% elif tag == 'GlutenFree' %}
+                                    <img src="{{ url_for('static', filename='images/glutenfree.png') }}" id="GlutenFree" alt="GlutenFree">
+                                {% elif tag == 'Vegetarian' %}
+                                    <img src="{{ url_for('static', filename='images/vegetarian.png') }}" id="Vegetarian" alt="Vegetarian">
+                                {% else %}
+                                    {{ tag }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+
+    <script>
+
+        //Automatically start with Active list on screen view
+        function setDefaultState() {
+            // Add the "active" class to the "Active" button
+            document.getElementById('activeButton').classList.add('active');
+            var activeContent = document.querySelector('.ActiveList');
+            activeContent.style.display = 'block';
+        }
+
+        function changeTab(tabId, contentId) {
+            // Remove the "active" class from all buttons
+            document.getElementById('activeButton').classList.remove('active');
+            document.getElementById('upcomingButton').classList.remove('active');
+            document.getElementById('archivedButton').classList.remove('active');
+
+            // Add the "active" class to the clicked button
+            document.getElementById(tabId).classList.add('active');
+
+            // Toggle the visibility of the content based on the active tab
+            var activeContent = document.querySelector('.ActiveList');
+            var upcomingContent = document.querySelector('.UpcomingList');
+            var archivedContent = document.querySelector('.ArchivedList');
+
+            if (tabId === 'activeButton') {
+                activeContent.style.display = 'block';
+                upcomingContent.style.display = 'none';
+                archivedContent.style.display = 'none';
+            } else if (tabId === 'upcomingButton') {
+                activeContent.style.display = 'none';
+                upcomingContent.style.display = 'block';
+                archivedContent.style.display = 'none';
+            } else if (tabId === 'archivedButton') {
+                activeContent.style.display = 'none';
+                upcomingContent.style.display = 'none';
+                archivedContent.style.display = 'block';
+            }
+        }
+
+        // Combine all functions into a single onload event
+        window.onload = function () {
+            setDefaultState();
+        };
+
+    </script>
+
+    <script type="text/javascript">
+        function filterEvents() {
+            let vegan = document.getElementById("Vegan");
+            let vegetarian = document.getElementById("Vegetarian");
+            let gf = document.getElementById("GlutenFree");
+            let filter_checked = [];
+
+            if (vegan.checked) {
+                filter_checked.push("Vegan");
+            }
+            if (vegetarian.checked) {
+                filter_checked.push("Vegetarian");
+            }
+            if (gf.checked) {
+                filter_checked.push("GlutenFree");
+            }
+
+            let list_items = document.getElementsByClassName("list-item");
+
+            for (var i = 0; i < list_items.length; i++) {
+                let aux_tags = list_items[i].querySelector('.item-text').querySelector('.item-tags').querySelectorAll('img');
+
+                let displayItem = false;
+
+                if (filter_checked.length > 0) {
+                    for (var j = 0; j < aux_tags.length; j++) {
+                        let tagAlt = aux_tags[j].getAttribute('alt');
+
+                        if (tagAlt && filter_checked.includes(tagAlt)) {
+                            displayItem = true;
+                            break; // Break the loop if at least one tag matches
+                        }
+                    }
+                } else {
+                    // If no filters selected, display the item
+                    displayItem = true;
+                }
+
+                // Set the display property based on the filtering result
+                list_items[i].style.display = displayItem ? "" : "none";
+            }
+        }
+    </script>
+
+
+    <div class="circle-toolbar">
+        <button class="circle-button" id="savedforlater">
+            <img class="SaveIcon" src="{{ url_for('static', filename='images/Picture1.svg') }}">
+        </button>
+        <button class="circle-button" id="addfood">
+            <img class="AddIcon" src="{{ url_for('static', filename='images/Picture2.svg') }}" style="background: #4484EA;">
+        </button>
+    </div>
+
+    <script>
+        document.getElementById("savedforlater").addEventListener("click", function() {
+            // EDIT WITH CORRECT PAGE NAME
+            window.location.href = "{{ url_for('saved') }}";
+        });
+
+        document.getElementById("addfood").addEventListener("click", function() {
+            // EDIT WITH CORRECT PAGE NAME
+            window.location.href = "{{ url_for('addFood') }}";
+        });
+    </script>
+
+</body>
+</html>

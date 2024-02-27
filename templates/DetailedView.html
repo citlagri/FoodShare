@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+
+  <style> 
+
+    body{
+      font-family: ‘Poppins’, sans-serif;
+    }
+  
+
+    .DetailedView{
+        width: 100%;
+        margin-left: 1px;
+        position: absolute;
+    }
+
+    .TopHeader {
+      margin-top: 46px;
+      display: flex;
+      justify-content: space-between;
+      position: relative; /* Added this to make it a reference point for absolute positioning */
+    }
+
+    /*HEADER CSS*/
+    .HeaderRight{
+      margin-top: 20px;
+      flex-direction: column;
+       margin-right: 25px;
+       
+    }
+
+
+    .TitleAndSave{
+      margin-top: 33px;
+      display: flex;
+      align-items: center; /* Center items vertically */
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .ShareIcons {
+      position: absolute;
+      width: 12%; /* Adjust as needed */
+      right: 0;
+      
+    }
+
+    .SaveIcon {
+      margin-top: 20px;
+      width: 50px; /* Adjust as needed */
+      height: 50px; /* Adjust as needed */
+
+    }
+
+    .Title{      
+        width: 70%;
+        margin-left: 18px;
+        text-align: left;
+        position: relative; 
+        color: black; 
+        font-size: 45px; 
+        font-weight: 400; 
+        word-wrap: break-word
+    }
+
+    
+
+    .linkback {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      color: black;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      z-index: 1000;
+      background-color: #76adffc7;
+  }
+
+.linkback button {
+    background: transparent;
+    border: none !important;
+}
+
+#back_img {
+    width: 8%;
+    height: 8%;
+    float: left;
+}
+
+#back_text {
+    font-weight: bold;
+    text-align: left;
+    float: left;
+    font-size: 25px;
+    font-size: 25px;
+}
+
+
+    .PostedAt{
+  
+        height: 15px;
+         text-align: right; 
+         color: black; 
+         font-size: 15px; 
+         font-weight: 400; 
+    }
+
+
+    /*ADDRESS AND ICON*/
+    .AddressAndIcon{
+      margin-top:  23px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .Address{
+      height: 22px; 
+      margin-left:48px;
+      text-align: left;
+       position: absolute;
+       color: black; 
+       font-size: 24px; 
+       font-weight: 400; 
+       word-wrap: break-word
+    }
+
+    .PinIcon{
+      height: 30px; 
+      width: auto;
+      margin-left: 20px;
+      text-align: left;
+       position: absolute; 
+    }
+
+    /*NOTES*/
+    .Notes{
+       height: 65px; 
+       margin-top: 45px; 
+       margin-left: 17px;
+      text-align: left;
+       position: absolute; color: black; font-size: 28px; font-weight: 400; word-wrap: break-word
+    }
+
+    .Boldness {
+      font-weight: 500; 
+    } 
+
+    /*MAIN FOOD IMAGE*/
+
+    .FoodImages{
+      position: relative;
+       width: 100%;
+       margin-top: 130px; 
+       text-align: center;
+    }
+
+    .FoodPic{
+      margin:auto;
+      width: 100%; /* Use 100% width to ensure it takes the full width of the container */
+      height: 100%; /* Use 100% height to ensure it takes the full height of the container */
+      object-fit: cover; 
+    }
+
+    
+    /*PostedBy*/
+
+    .PostedBy{
+      margin: auto;
+       top: calc(155px +6%); 
+       text-align: center; 
+       position: relative;
+      margin-bottom: 90px;
+
+    }
+
+    #PostedBySpan1{
+      color: black; font-size: 22px; font-style: italic; font-weight: 400; word-wrap: break-word
+    }
+    #PostedBySpan2{
+      color: black; font-size: 22px; font-weight: 400; word-wrap: break-word
+    }
+
+
+  .MarkFinishedButtonOut {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      width: 70%;
+      transform: translateX(-50%);
+      background: #4a8ffff8;
+      box-shadow: 0px -1px 1px 1px rgba(51.62, 34.71, 170, 0.25) inset;
+      border-radius: 10px;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      display: inline-flex;
+      transition: background-color 0.3s ease;
+    }
+
+    .MarkFinishedButtonOut:hover {
+      background-color: #3a70bf; /* Darker color on hover */
+    }
+
+    .MarkFinishedButtonOut a {
+      text-decoration: none;
+    }
+
+    .MarkFinishedButtonIn {
+
+      color: white;
+      font-size: 25px;
+      font-weight: 700;
+      line-height: 64px;
+      word-wrap: break-word;
+    }
+
+
+
+
+</style>
+</head>
+<body>
+
+  
+
+    <div class="TopHeader">
+        <div class="HeaderLeft">    
+          <div class="linkback">
+            <a href="{{ url_for('mapView') }}">
+              <button>
+                  <span><img id="back_img" src="{{ url_for('static', filename='images/back_arrow.png') }}"></span>
+                  <span id="back_text">Back to all events</span>
+              </button>
+            </a>
+          </div>       
+        </div>
+        <div class="HeaderRight">
+            <div class="PostedAt">
+            {{event['itemDate']}}
+          </div>
+          <div class="PostedAt">
+            {{event['itemTime']}}
+          </div>
+        </div>
+        
+    </div>  
+
+    <div class="DetailedView"></div>
+      {% if event %}
+
+      <div class="TitleAndSave">
+        <div class="Title">
+          {{event['itemName']}}
+        </div>
+        <div class="ShareIcons">
+          
+          <img class="SaveIcon" id="saveIconImg" onclick="toggleSaveIcon()"
+              src="{{ url_for('static', filename='images/saved_outline.svg') }}"
+              data-original-src="{{ url_for('static', filename='images/saved_outline.svg') }}"
+              data-swapped-src="{{ url_for('static', filename='images/saved_yellow.svg') }}" />
+        </div>  
+      </div>
+        
+
+        <div class="AddressAndIcon">
+          <div class="Address">
+            {{event['itemLocation']}}
+          </div>
+          <div class="PinIconContainer">
+            <a id= "btnLink" href="">
+              <img class="PinIcon" src="{{ url_for('static', filename='FreeLunchImages/googlePin.png') }}"/>
+            </a>              
+          </div>
+        </div>
+
+        <div class="Notes">
+          {% if event['itemNotes'] %}
+             <strong class="Boldness">Special Notes:</strong> {{ event['itemNotes'] }}
+          {% endif %}
+
+        </div>
+
+        <div class="FoodImages">
+          <img src="{{ event['itemImage'] }}" alt="Event Image">
+        </div>
+
+        <div class="PostedBy" ><span id="PostedBySpan1">posted by</span><span id="PostedBySpan2"> {{event['itemAuthor']}}</span></div>
+        
+        
+        <a href="{{ url_for('mark_finished', item_id=event['itemId']) }}">
+          <div class="MarkFinishedButtonOut">
+              <div class="MarkFinishedButtonIn">Mark As Finished!</div>
+          </div>
+        </a>
+        </div>
+
+      
+      {% else %}
+      <p>Event not found</p>
+      {% endif %}
+
+    </div>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Check local storage for saved items and update the save button accordingly
+        var savedItems = JSON.parse(getCookie('saved_items')) || [];
+        var saveIconImg = document.getElementById('saveIconImg');
+
+        if (savedItems.includes('{{ event.itemId }}')) {
+          saveIconImg.src = saveIconImg.getAttribute('data-swapped-src');
+        }
+      });
+
+      function toggleSaveIcon() {
+        var saveIconImg = document.getElementById('saveIconImg');
+        var eventId = '{{ event.itemId }}';
+        var savedItems = JSON.parse(getCookie('saved_items')) || [];
+
+        // Toggle save status
+        if (savedItems.includes(eventId)) {
+          savedItems = savedItems.filter(item => item !== eventId);
+        } else {
+          savedItems.push(eventId);
+        }
+
+        // Save updated list to cookie
+        setCookie('saved_items', JSON.stringify(savedItems));
+
+        // Update the save button appearance
+        if (savedItems.includes(eventId)) {
+          saveIconImg.src = saveIconImg.getAttribute('data-swapped-src');
+        } else {
+          saveIconImg.src = saveIconImg.getAttribute('data-original-src');
+        }
+      }
+
+      function setCookie(name, value) {
+        document.cookie = name + "=" + value + "; path=/";
+      }
+
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      }
+
+
+    </script>
+
+</body>
+</html>
+
+

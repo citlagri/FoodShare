@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='saved_styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="linkback">
+        <a href="{{ url_for('mapView') }}">
+            <button>
+                <span><img id="back_img" src="{{ url_for('static', filename='images/back_arrow.png') }}"></span>
+                <span id="back_text">Back to all events</span>
+            </button>
+        </a>
+    </div>
+
+     <!-- Display saved events -->
+     <div class="SavedList">
+        {% for event in saved_events %}
+            <a href="{{ url_for('detailedView', item_id=event.itemId) }}">
+                <div class="list-item">
+                    <div class="item-image">
+                        <img src="{{ event.itemImage }}" alt="{{ event.itemName }}">
+                    </div>
+                    <div class="item-text">
+                        <div class='item-primary-text'>{{ event.itemName }}</div>
+                        <div class='item-secondary-text'>{{ event.itemLocation }}</div>
+                        <div class='item-date' data-date="{{ event.itemDate }}">{{ event.itemDate }} @ {{ event.itemTime }}</div>
+                        <!-- Loop through itemTags and display each tag -->
+                        <div class='item-tags'>
+                            {% for tag in event.itemTags %}
+                                {% if tag == 'Vegan' %}
+                                    <img src="{{ url_for('static', filename='images/vegan.avif') }}" alt="Vegan Icon">
+                                {% elif tag == 'GlutenFree' %}
+                                    <img src="{{ url_for('static', filename='images/glutenfree.png') }}" alt="Gluten-Free Icon">
+                                {% elif tag == 'Vegetarian' %}
+                                    <img src="{{ url_for('static', filename='images/vegetarian.png') }}" alt="Vegetarian Icon">
+                                {% else %}
+                                    {{ tag }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    
+</body>
+
+</html>
